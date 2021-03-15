@@ -23,17 +23,16 @@ package net.opatry.speedrun.wetrade.ui.welcome
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
-import androidx.compose.material.ButtonDefaults
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,48 +42,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.opatry.speedrun.wetrade.R
+import net.opatry.speedrun.wetrade.ui.component.WeTradeButton
 import net.opatry.speedrun.wetrade.ui.theme.BloomTheme
-import net.opatry.speedrun.wetrade.ui.theme.typography
-import net.opatry.speedrun.wetrade.ui.welcome.component.WelcomeButton
 
 @Composable
 fun WelcomeScreen(onSignIn: () -> Unit) {
-    Surface(color = MaterialTheme.colors.primary) {
-        Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                welcomeBackground(),
-                null,
+    BloomTheme(darkTheme = false) {
+        Surface(color = MaterialTheme.colors.background) {
+            Box(
                 Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
-            )
-            Column(Modifier.fillMaxSize()) {
+                contentAlignment = Alignment.Center
+            ) {
                 Image(
-                    welcomeIllos(),
+                    painterResource(R.drawable.welcome_bg),
                     null,
-                    Modifier.padding(top = 72.dp, start = 88.dp, bottom = 48.dp)
+                    Modifier.fillMaxSize(),
+                    contentScale = ContentScale.FillBounds
                 )
-                Column(
-                    Modifier.padding(horizontal = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Image(
+                    painterResource(R.drawable.logo),
+                    stringResource(R.string.app_name)
+                )
+            }
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
                 ) {
-                    // AppTitle(stringResource(R.string.app_name), Modifier.padding(bottom = 32.dp))
-                    Image(logo(), stringResource(R.string.app_name))
-                    Text(
-                        stringResource(R.string.app_subtitle),
-                        Modifier.paddingFromBaseline(top = 32.dp, bottom = 40.dp),
-                        style = typography.subtitle1
-                    )
-                    WelcomeButton(onClick = { }) {
-                        Text(stringResource(R.string.welcome_create_account))
+                    WeTradeButton(onClick = { }, Modifier.weight(1f)) {
+                        Text(stringResource(R.string.welcome_getstarted))
                     }
-                    TextButton(
-                        onClick = onSignIn,
-                        // FIXME color isn't correct in dark
-                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.secondary),
-                    ) {
+                    Spacer(Modifier.width(8.dp))
+                    WeTradeButton(onClick = onSignIn, Modifier.weight(1f), isSecondary = true) {
                         Text(stringResource(R.string.welcome_login))
                     }
                 }
@@ -93,44 +86,9 @@ fun WelcomeScreen(onSignIn: () -> Unit) {
     }
 }
 
-@Composable
-private fun welcomeBackground() = painterResource(
-    when {
-        isSystemInDarkTheme() -> R.drawable.dark_welcome_bg
-        else -> R.drawable.light_welcome_bg
-    }
-)
-
-@Composable
-private fun welcomeIllos() = painterResource(
-    when {
-        isSystemInDarkTheme() -> R.drawable.dark_welcome_illos
-        else -> R.drawable.light_welcome_illos
-    }
-)
-
-@Composable
-private fun logo() = painterResource(
-    when {
-        isSystemInDarkTheme() -> R.drawable.dark_logo
-        else -> R.drawable.light_logo
-    }
-)
-
 @ExperimentalFoundationApi
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
+@Preview("Welcome", widthDp = 360, heightDp = 640)
 @Composable
-private fun WelcomeLightPreview() {
-    BloomTheme {
-        WelcomeScreen {}
-    }
-}
-
-@ExperimentalFoundationApi
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-private fun WelcomeDarkPreview() {
-    BloomTheme(darkTheme = true) {
-        WelcomeScreen {}
-    }
+private fun WelcomePreview() {
+    WelcomeScreen {}
 }

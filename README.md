@@ -10,6 +10,9 @@ Implement the _We Trade_ mockup provided for [Americas friendly area](https://gi
 
 Apply theming and metrics described in the linked `WeTrade.pdf` document.
 
+Few identified issues remains:
+- Status bar text color in Home screen does not adjust when "Positions" sheet is expanded with light background.
+- Interaction with Home screen bottom sheet isn't easy due to navigation bar, some padding might be needed somehow.
 
 ## :camera_flash: Screenshots
 

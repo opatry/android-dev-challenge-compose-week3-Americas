@@ -25,8 +25,8 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,15 +34,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.booleanResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import net.opatry.speedrun.wetrade.ui.home.HomeScreen
-import net.opatry.speedrun.wetrade.ui.theme.BloomTheme
 import net.opatry.speedrun.wetrade.ui.welcome.LoginScreen
 import net.opatry.speedrun.wetrade.ui.welcome.WelcomeScreen
 
-@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,52 +60,52 @@ enum class AppState {
     Home
 }
 
-@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
 fun MySootheApp() {
     ProvideWindowInsets {
-        BloomTheme {
-            val (appState, setAppState) = remember { mutableStateOf(AppState.OnBoarding) }
-            when (appState) {
-                AppState.OnBoarding -> WelcomeScreen {
-                    setAppState(AppState.Login)
-                }
-                AppState.Login -> LoginScreen {
-                    setAppState(AppState.Home)
-                }
-                AppState.Home -> HomeScreen()
+        val (appState, setAppState) = remember { mutableStateOf(AppState.OnBoarding) }
+        when (appState) {
+            AppState.OnBoarding -> WelcomeScreen {
+                setAppState(AppState.Login)
             }
-            val showGrid = booleanResource(R.bool.debug_show_grid)
-            if (showGrid) {
-                GridLayer()
+            AppState.Login -> LoginScreen {
+                setAppState(AppState.Home)
             }
+            AppState.Home -> HomeScreen()
+        }
+        val showGrid = booleanResource(R.bool.debug_show_grid)
+        if (showGrid) {
+            GridLayer()
         }
     }
 }
 
 @Composable
-fun GridLayer() {
-    val offset = 8.dp
+fun GridLayer(gridSize: Dp = 8.dp) {
     Canvas(Modifier.fillMaxSize()) {
+        val offset = gridSize.toPx()
+        val color = Color.Red.copy(alpha = .3f)
+        val lineWidth = 1f
         var x = 0f
         while (x < size.width) {
             drawLine(
                 start = Offset(x, 0f),
                 end = Offset(x, size.height),
-                strokeWidth = 1f,
-                color = Color.Red.copy(alpha = .3f),
+                strokeWidth = lineWidth,
+                color = color,
             )
-            x += offset.toPx()
+            x += offset
         }
         var y = 0f
         while (y < size.height) {
             drawLine(
                 start = Offset(0f, y),
                 end = Offset(size.width, y),
-                strokeWidth = 1f,
-                color = Color.Red.copy(alpha = .3f),
+                strokeWidth = lineWidth,
+                color = color,
             )
-            y += offset.toPx()
+            y += offset
         }
     }
 }

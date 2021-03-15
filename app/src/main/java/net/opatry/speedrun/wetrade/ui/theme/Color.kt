@@ -23,10 +23,9 @@ package net.opatry.speedrun.wetrade.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Pink100 = Color(0xFFFFF1F1)
-val Pink900 = Color(0xFF2F2C2C)
-val Gray = Color(0xFF232323)
-val Green900 = Color(0xFF2D3B2D)
-val Green300 = Color(0xFFB8C9B8)
-val White150 = Color.White.copy(alpha = .15f)
-val White850 = Color.White.copy(alpha = .85f)
+val Yellow = Color(0xFFE3DADA00)
+val Gray700 = Color(0xFF2D2D2D)
+val Gray900 = Color(0xFF232323)
+val Purple = Color(0xFF322049)
+val Green = Color(0xFF39A844)
+val Red = Color(0xFFD93C19)

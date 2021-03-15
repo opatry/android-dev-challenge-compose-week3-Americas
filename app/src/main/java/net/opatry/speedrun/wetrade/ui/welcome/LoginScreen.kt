@@ -22,6 +22,8 @@
 package net.opatry.speedrun.wetrade.ui.welcome
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,10 +31,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.Password
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,84 +46,92 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import net.opatry.speedrun.wetrade.R
+import net.opatry.speedrun.wetrade.ui.component.WeTradeButton
 import net.opatry.speedrun.wetrade.ui.theme.BloomTheme
 import net.opatry.speedrun.wetrade.ui.theme.typography
-import net.opatry.speedrun.wetrade.ui.welcome.component.WelcomeButton
 
 @Composable
-fun LoginScreen(onSignedIn: () -> Unit) {
-    Surface(color = MaterialTheme.colors.background) {
-        Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
-        ) {
+fun LoginScreen(darkTheme: Boolean = isSystemInDarkTheme(), onSignedIn: () -> Unit) {
+    BloomTheme(darkTheme) {
+        Surface(color = MaterialTheme.colors.surface) {
             Column(
-                Modifier.padding(horizontal = 16.dp),
+                Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    stringResource(R.string.login_login_title),
-                    Modifier.paddingFromBaseline(top = 184.dp, bottom = 16.dp),
-                    style = typography.h1
-                )
-
-                var email by remember { mutableStateOf("") }
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    placeholder = {
-                        // TODO replicate text style
-                        Text(stringResource(R.string.login_email_address), style = typography.body1)
-                    }
-                )
-
-                var password by remember { mutableStateOf("") }
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    Modifier
-                        .fillMaxWidth()
-                        .height(56.dp),
-                    visualTransformation = PasswordVisualTransformation(),
-                    placeholder = {
-                        // TODO replicate text style
-                        Text(stringResource(R.string.login_password), style = typography.body1)
-                    }
-                )
-                Text(
-                    // FIXME This isn't scalable at all. We should manage this using localized strings
-                    //  Maybe having several strings like that and then another one "%s %s %s %s %s"
-                    //  to put first and second part to allow more flexibility with translations
-                    buildAnnotatedString {
-                        append("By clicking below, you agree to our ")
-                        withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
-                            append("Terms of Use")
+                Box(contentAlignment = Alignment.Center) {
+                    Image(
+                        painterResource(R.drawable.login_bg),
+                        null,
+                        Modifier.fillMaxWidth(),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Text(
+                        stringResource(R.string.login_welcome_back),
+                        Modifier
+                            .fillMaxWidth(.7f)
+                            .paddingFromBaseline(top = 152.dp),
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onBackground,
+                        style = typography.h2
+                    )
+                }
+                // TODO integrate to column or push column just below image
+                Column(
+                    Modifier.padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    var email by remember { mutableStateOf("") }
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 40.dp)
+                            .height(56.dp),
+                        leadingIcon = {
+                            Icon(Icons.Default.MailOutline, null)
+                        },
+                        placeholder = {
+                            // TODO replicate text style
+                            Text(
+                                stringResource(R.string.login_email_address),
+                                style = typography.body1
+                            )
                         }
-                        append(" and consent to our ")
-                        withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
-                            append("Privacy Policy")
+                    )
+
+                    var password by remember { mutableStateOf("") }
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        leadingIcon = {
+                            Icon(Icons.Default.Password, null)
+                        },
+                        visualTransformation = PasswordVisualTransformation(),
+                        placeholder = {
+                            // TODO replicate text style
+                            Text(stringResource(R.string.login_password), style = typography.body1)
                         }
-                        append(".")
-                    },
-                    Modifier.paddingFromBaseline(top = 24.dp, bottom = 16.dp),
-                    textAlign = TextAlign.Center,
-                    style = typography.body2
-                )
-                WelcomeButton(onClick = onSignedIn) {
-                    Text(stringResource(R.string.login_login))
+                    )
+                    WeTradeButton(
+                        onClick = onSignedIn,
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                    ) {
+                        Text(stringResource(R.string.login_login))
+                    }
                 }
             }
         }
@@ -125,23 +139,15 @@ fun LoginScreen(onSignedIn: () -> Unit) {
 }
 
 @ExperimentalFoundationApi
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
+@Preview("Login Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 private fun LoginLightPreview() {
-    BloomTheme {
-        Surface(color = MaterialTheme.colors.background) {
-            LoginScreen {}
-        }
-    }
+    LoginScreen(darkTheme = false) {}
 }
 
 @ExperimentalFoundationApi
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
+@Preview("Login Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 private fun LoginDarkPreview() {
-    BloomTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colors.background) {
-            LoginScreen {}
-        }
-    }
+    LoginScreen(darkTheme = true) {}
 }

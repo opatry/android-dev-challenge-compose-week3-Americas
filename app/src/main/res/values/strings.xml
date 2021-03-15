@@ -23,37 +23,18 @@
 <resources>
     <string name="app_name">We Trade</string>
     <string name="start">Start</string>
-    <string name="welcome_signup">Sign up</string>
-    <string name="login_login">Log in</string>
-    <string name="login_no_account">Don\'t have an account?</string>
-    <string name="login_signup">Sign up</string>
 
-
-    <string name="theme_desert_chic">Desert chic</string>
-    <string name="theme_tiny_terrariums">Tiny terrariums</string>
-    <string name="theme_jungle_vibes">Jungle vibes</string>
-    <string name="theme_easy_care">Easy care</string>
-    <string name="theme_statements">Statements</string>
-    <string name="plant_monstera">Monstera</string>
-    <string name="plant_aglaonema">Aglaonema</string>
-    <string name="plant_peace_lily">Peace lily</string>
-    <string name="plant_fiddle_leaf">Fiddle leaf</string>
-    <string name="plant_snake_plant">Snake plant</string>
-    <string name="plant_pothos">Pothos</string>
-    <string name="app_subtitle">Beautiful home garden solutions</string>
-    <string name="welcome_create_account">Create account</string>
+    <string name="welcome_getstarted">Get started</string>
     <string name="welcome_login">Log in</string>
-    <string name="login_login_title">Log in with email</string>
+    <string name="login_welcome_back">Welcome back</string>
     <string name="login_email_address">Email address</string>
-    <string name="login_password">Password (8+ characters)</string>
-    <string name="nav_home">Home</string>
-    <string name="nav_favorites">Favorites</string>
-    <string name="nav_profile">Profile</string>
-    <string name="nav_cart">Cart</string>
-    <string name="search">Search</string>
-    <string name="browse_themes">Browse themes</string>
-    <string name="design_your_home_garden">Design your home garden</string>
-    <string name="filter_plants">Filter plants</string>
-    <string name="dummy_desc">This is a description</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Log in</string>
+    <string name="home_account_tab">Account</string>
+    <string name="home_watchlist_tab">Watchlist</string>
+    <string name="home_profile_tab">Profile</string>
+    <string name="home_balance">Balance</string>
+    <string name="home_transact_cta">Transact</string>
+    <string name="home_positions">Positions</string>
 
 </resources>

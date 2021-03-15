@@ -22,116 +22,186 @@
 package net.opatry.speedrun.wetrade.ui.home
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetState
+import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
-import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import net.opatry.speedrun.wetrade.R
-import net.opatry.speedrun.wetrade.data.myPlants
-import net.opatry.speedrun.wetrade.data.myThemes
-import net.opatry.speedrun.wetrade.ui.component.SearchComponent
-import net.opatry.speedrun.wetrade.ui.home.component.PlantsPicker
-import net.opatry.speedrun.wetrade.ui.home.component.ThemesBrowser
+import net.opatry.speedrun.wetrade.data.myCategories
+import net.opatry.speedrun.wetrade.data.myPositions
+import net.opatry.speedrun.wetrade.model.StockPosition
+import net.opatry.speedrun.wetrade.ui.component.WeTradeButton
+import net.opatry.speedrun.wetrade.ui.home.component.BalanceProgressGraph
+import net.opatry.speedrun.wetrade.ui.home.component.Categories
+import net.opatry.speedrun.wetrade.ui.home.component.Positions
 import net.opatry.speedrun.wetrade.ui.theme.BloomTheme
+import net.opatry.speedrun.wetrade.ui.theme.customColors
+import net.opatry.speedrun.wetrade.ui.theme.typography
 
 private enum class HomeTabs(
     @StringRes val titleRes: Int,
-    val icon: ImageVector
 ) {
-    Home(R.string.nav_home, Icons.Default.Home),
-    Favorites(R.string.nav_favorites, Icons.Default.FavoriteBorder),
-    Profile(R.string.nav_profile, Icons.Default.AccountCircle),
-    Cart(R.string.nav_cart, Icons.Default.ShoppingCart)
+    Account(R.string.home_account_tab),
+    Watchlist(R.string.home_watchlist_tab),
+    Profile(R.string.home_profile_tab),
 }
 
-@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @Composable
-fun HomeScreen() {
-    val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.Home) }
+fun HomeScreen(darkTheme: Boolean = isSystemInDarkTheme()) {
+    val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.Account) }
     val tabs = HomeTabs.values()
-
-    Scaffold(
-        backgroundColor = MaterialTheme.colors.background,
-        topBar = {},
-        bottomBar = {
-            BottomNavigation(
-                Modifier.navigationBarsHeight(additional = 56.dp),
-                backgroundColor = MaterialTheme.colors.primary,
-                elevation = 16.dp
-            ) {
-                tabs.forEach { navItem ->
-                    BottomNavigationItem(
-                        icon = {
-                            Icon(
-                                navItem.icon,
-                                null,
-                                Modifier.size(24.dp)
-                            )
-                        },
-                        label = { Text(stringResource(navItem.titleRes)) },
-                        selected = selectedTab == navItem,
-                        selectedContentColor = MaterialTheme.colors.onPrimary,
-                        unselectedContentColor = MaterialTheme.colors.onPrimary.copy(alpha = ContentAlpha.medium),
-                        modifier = Modifier.navigationBarsPadding(),
-                        onClick = { /*setSelectedTab(navItem)*/ }
-                    )
+    BloomTheme(darkTheme) {
+        Scaffold(backgroundColor = MaterialTheme.colors.background) {
+            PositionsBottomSheet(myPositions) {
+                Column {
+                    // FIXME would have expected this as Scaffold topBar but doesn't seem to suit BottomSheetScaffold fullscreen
+                    TabRow(
+                        selectedTabIndex = selectedTab.ordinal,
+                        Modifier.padding(horizontal = 16.dp),
+                        backgroundColor = Color.Transparent,
+                        indicator = { },
+                        divider = { }
+                    ) {
+                        tabs.forEachIndexed { index, tab ->
+                            val isSelected = index == selectedTab.ordinal
+                            Tab(
+                                selected = isSelected,
+                                selectedContentColor = MaterialTheme.colors.onBackground,
+                                unselectedContentColor = MaterialTheme.colors.onBackground.copy(
+                                    alpha = ContentAlpha.disabled
+                                ),
+                                onClick = { /*setSelectedTab(HomeTabs.values()[index])*/ }
+                            ) {
+                                val tabName = stringResource(tab.titleRes)
+                                Text(
+                                    tabName.toUpperCase(),
+                                    Modifier.paddingFromBaseline(top = 64.dp, bottom = 8.dp),
+                                    style = MaterialTheme.typography.button
+                                )
+                            }
+                        }
+                    }
+                    Column(
+                        Modifier.padding(horizontal = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        HomeSummary()
+                    }
+                    Column(Modifier.padding(top = 16.dp, bottom = 32.dp)) {
+                        Categories(myCategories)
+                        BalanceProgressGraph(
+                            painterResource(R.drawable.home_illos),
+                            Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
                 }
             }
         }
-    ) {
-        Column {
-            Spacer(Modifier.height(40.dp))
-            SearchComponent(Modifier.padding(horizontal = 16.dp))
-            ThemesBrowser(
-                myThemes,
-                Modifier.padding(horizontal = 16.dp)
-            )
-            PlantsPicker(
-                myPlants,
-                Modifier.padding(horizontal = 16.dp)
-            )
-        }
     }
 }
 
-@ExperimentalFoundationApi
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
+@Composable
+private fun HomeSummary() {
+    Text(
+        stringResource(R.string.home_balance),
+        Modifier.paddingFromBaseline(top = 32.dp, bottom = 8.dp),
+        style = MaterialTheme.typography.subtitle1
+    )
+    // TODO float $ amount + string format
+    Text(
+        "$73,589.01",
+        Modifier.paddingFromBaseline(top = 48.dp, bottom = 24.dp),
+        style = MaterialTheme.typography.h1
+    )
+    Text(
+        // TODO reuse StockPositionUIExt
+        "+412.35",
+        Modifier.paddingFromBaseline(top = 16.dp, bottom = 32.dp),
+        style = MaterialTheme.typography.subtitle1,
+        color = MaterialTheme.customColors.custom1
+    )
+    WeTradeButton(
+        onClick = { },
+        Modifier.fillMaxWidth()
+    ) {
+        Text(stringResource(R.string.home_transact_cta))
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun PositionsBottomSheet(
+    positions: List<StockPosition>,
+    content: @Composable (PaddingValues) -> Unit
+) {
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+
+    // FIXME status bar text colors when state is expanded
+    // if (MaterialTheme.colors.surface.luminance() < .5f) {
+    //     if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+    //         // change status bar color to dark
+    //     }
+    // }
+
+    BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(0.dp), // MaterialTheme.shapes.small,
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            Column(
+                Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    stringResource(R.string.home_positions),
+                    Modifier.paddingFromBaseline(top = 40.dp, bottom = 24.dp),
+                    style = typography.subtitle1
+                )
+                Positions(positions)
+            }
+        },
+        sheetPeekHeight = 64.dp,
+        content = content
+    )
+}
+
+@ExperimentalMaterialApi
+@Preview("Home Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 private fun HomeLightPreview() {
-    BloomTheme {
-        HomeScreen()
-    }
+    HomeScreen(darkTheme = false)
 }
 
-@ExperimentalFoundationApi
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
+@ExperimentalMaterialApi
+@Preview("Home Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 private fun HomeDarkPreview() {
-    BloomTheme(darkTheme = true) {
-        HomeScreen()
-    }
+    HomeScreen(darkTheme = true)
 }

@@ -39,46 +39,39 @@ val Montserrat = FontFamily(
 // Set of Material typography styles to start with
 val typography = Typography(
     h1 = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        letterSpacing = 0.sp,
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 40.sp,
+        letterSpacing = 1.25.sp,
     ),
     h2 = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
-        letterSpacing = .15.sp,
-        // TODO CAPS ??
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 36.sp,
+        letterSpacing = 0.sp,
+    ),
+    h3 = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 13.sp,
+        letterSpacing = 0.sp,
     ),
     subtitle1 = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.Light,
-        fontSize = 16.sp,
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Medium,
+        fontSize = 15.sp,
         letterSpacing = 0.sp,
     ),
     body1 = TextStyle(
-        fontFamily = NunitoSans,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Light,
-        fontSize = 14.sp,
-        letterSpacing = 0.sp,
-    ),
-    body2 = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.Light,
-        fontSize = 12.sp,
+        fontSize = 13.sp,
         letterSpacing = 0.sp,
     ),
     button = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        letterSpacing = 1.sp,
-    ),
-    caption = TextStyle(
-        fontFamily = NunitoSans,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
-        letterSpacing = 0.sp,
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.Bold,
+        fontSize = 13.sp,
+        letterSpacing = 1.25.sp,
     )
 )
