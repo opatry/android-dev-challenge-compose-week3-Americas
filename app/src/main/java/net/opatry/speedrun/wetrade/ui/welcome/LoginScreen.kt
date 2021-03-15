@@ -130,7 +130,7 @@ fun LoginScreen(darkTheme: Boolean = isSystemInDarkTheme(), onSignedIn: () -> Un
                             .fillMaxWidth()
                             .padding(top = 16.dp)
                     ) {
-                        Text(stringResource(R.string.login_login))
+                        Text(stringResource(R.string.login_login).toUpperCase())
                     }
                 }
             }

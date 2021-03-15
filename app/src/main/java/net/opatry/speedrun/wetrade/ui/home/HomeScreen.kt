@@ -150,7 +150,7 @@ private fun HomeSummary() {
         onClick = { },
         Modifier.fillMaxWidth()
     ) {
-        Text(stringResource(R.string.home_transact_cta))
+        Text(stringResource(R.string.home_transact_cta).toUpperCase())
     }
 }
 

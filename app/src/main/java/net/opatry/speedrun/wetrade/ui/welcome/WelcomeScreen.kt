@@ -74,11 +74,11 @@ fun WelcomeScreen(onSignIn: () -> Unit) {
                         .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
                 ) {
                     WeTradeButton(onClick = { }, Modifier.weight(1f)) {
-                        Text(stringResource(R.string.welcome_getstarted))
+                        Text(stringResource(R.string.welcome_getstarted).toUpperCase())
                     }
                     Spacer(Modifier.width(8.dp))
                     WeTradeButton(onClick = onSignIn, Modifier.weight(1f), isSecondary = true) {
-                        Text(stringResource(R.string.welcome_login))
+                        Text(stringResource(R.string.welcome_login).toUpperCase())
                     }
                 }
             }
