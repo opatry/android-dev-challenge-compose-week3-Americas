@@ -33,4 +33,4 @@ val StockPosition.progressColor
 
 // FIXME string formatting
 val StockPosition.formattedProgressPercentage
-    get() = if (progressPercentage > 0) "+$progressPercentage" else progressPercentage.toString()
+    get() = if (progressPercentage > 0) "+$progressPercentage%" else "$progressPercentage%"
