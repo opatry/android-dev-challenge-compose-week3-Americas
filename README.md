@@ -17,14 +17,22 @@ Few identified issues remains:
 ## :camera_flash: Screenshots
 
 ### 🌞 Light Mode
-Welcome | Log in | Home
---- | --- | --- |
-<img src="results/screenshot_1.png" width="260"> | <img src="results/screenshot_2.png" width="260"> | <img src="results/screenshot_3.png" width="260">
+Welcome | Log in
+--- | --- |
+<img src="results/screenshot_1.png" width="260"> | <img src="results/screenshot_2.png" width="260">
+
+Home | Positions
+--- | --- |
+<img src="results/screenshot_3.png" width="260"> | <img src="results/screenshot_4.png" width="260">
 
 ### 🌚 Dark Mode
-Welcome | Log in | Home
---- | --- | --- |
-<img src="results/screenshot_1_dark.png" width="260"> | <img src="results/screenshot_2_dark.png" width="260"> | <img src="results/screenshot_3_dark.png" width="260">
+Welcome | Log in
+--- | --- |
+<img src="results/screenshot_1_dark.png" width="260"> | <img src="results/screenshot_2_dark.png" width="260">
+
+Home | Positions
+--- | --- |
+<img src="results/screenshot_3_dark.png" width="260"> | <img src="results/screenshot_4_dark.png" width="260">
 
 ## License
 ```
