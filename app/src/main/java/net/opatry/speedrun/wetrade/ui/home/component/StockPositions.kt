@@ -45,7 +45,7 @@ import net.opatry.speedrun.wetrade.ui.theme.typography
 fun Positions(positions: List<StockPosition>) {
     LazyColumn(Modifier.padding(horizontal = 16.dp)) {
         items(positions) { position ->
-            Divider(Modifier.height(2.dp))
+            Divider(Modifier.height(1.5.dp))
             Position(position)
         }
     }
