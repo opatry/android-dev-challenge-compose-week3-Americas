@@ -55,9 +55,9 @@ fun Positions(positions: List<StockPosition>) {
 private fun Position(stockPosition: StockPosition) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.width(48.dp)) {
-            // FIXME string formatting
             Text(
-                "$${stockPosition.amountInDollar}",
+                // FIXME currency string formatting
+                "$${stockPosition.amountInDollar}".removeSuffix(".0"),
                 Modifier.paddingFromBaseline(top = 24.dp),
                 style = typography.body1
             )
